@@ -18,15 +18,17 @@ export const TodoPresentations = (props: ITodosPresentationProps) => {
     }-${newDate.getFullYear()}`;
   };
 
-  function moveTodo(todo: Todo, e: MouseEvent) {
-    if (e.target.id !== "movetodotrue") return;
+  function moveTodo(todo: Todo, e: React.MouseEvent) {
+    if (e === undefined) return
+    if (e.target === null) return
+    if ((e.target as HTMLDivElement).id !== "movetodotrue") return;
     if (!props.manualMode) return;
     let pos1 = 0,
       pos2 = 0,
       pos3 = 0,
       pos4 = 0;
     let todoPositionX: number, todoPositionY: number;
-    let todoelement = e.target.parentNode;
+    let todoelement = (e.target as HTMLDivElement).parentNode;
     e.preventDefault();
     pos3 = e.clientX;
     pos4 = e.clientY;
@@ -39,10 +41,10 @@ export const TodoPresentations = (props: ITodosPresentationProps) => {
       pos2 = pos4 - e.clientY;
       pos3 = e.clientX;
       pos4 = e.clientY;
-      todoPositionX = todoelement.offsetLeft - pos1;
-      todoPositionY = todoelement.offsetTop - pos2;
-      todoelement.style.left = `${todoPositionX}px`;
-      todoelement.style.top = `${todoPositionY}px`;
+      todoPositionX = (todoelement as HTMLDivElement).offsetLeft - pos1;
+      todoPositionY = (todoelement as HTMLDivElement).offsetTop - pos2;
+      (todoelement as HTMLDivElement).style.left = `${todoPositionX}px`;
+      (todoelement as HTMLDivElement).style.top = `${todoPositionY}px`;
     }
 
     function todoOnMouseUp() {
@@ -111,7 +113,7 @@ export const TodoPresentations = (props: ITodosPresentationProps) => {
               </div>
             </div>
             <div
-              onMouseDown={() => {
+              onMouseDown={(event) => {
                 moveTodo(todo, event);
               }}
               id={`movetodo${props.manualMode}`}
